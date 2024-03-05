@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-header" style="background: url({% static 'img/banner1.jpg' %});">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb-wrapper">
+                    <h2 class="product-title">Blog Details</h2>
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home /</a></li>
+                        <li class="current">Blog Details</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="content" class="section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 col-xs-12">
+
+                <div class="blog-post single-post">
+
+                    <div class="post-thumb">
+                        <a href="#"><img class="img-fluid" src="/{{ post.image }}" alt=""></a>
+                        <div class="hover-wrap">
+                        </div>
+                    </div>
+
+
+                    <div class="post-content">
+                        <h2 class="post-title"><a>{{ posts.title }}</a></h2>
+                        <div class="meta">
+                            <span class="meta-part"><a href="#"><i
+                                    class="lni-user"></i> {{ posts.author_name }}</a></span>
+                            <span class="meta-part"><a href="#"><i class="lni-alarm-clock"></i> {{ posts.post_date }}</a></span>
+                            <span class="meta-part"><a href="#"><i class="lni-comments-alt"></i> {{ posts.comment_count }} Comments</a></span>
+                        </div>
+                        <div class="entry-summary">
+                            {{ posts.contents }}
+                        </div>
+                    </div>
+                </div>
+                <div id="comments">
+                    <div class="comment-box">
+                        <h3>Comments</h3>
+                        <ol class="comments-list">
+                            {% for comment in comments %}
+                            <li>
+                                <div class="media">
+                                    <div class="thumb-left">
+                                        <a href="#">
+                                            <img class="img-fluid" src="{% static 'img/blog/user1.jpg' %}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="info-body">
+                                        <div class="media-heading">
+                                            <h4 class="name">{{ comments.author.username }}</h4>
+                                            <span class="comment-date"><i
+                                                    class="lni-alarm-clock"></i>{{ comment.comment_date }}</span>
+                                            <a href="#" class="reply-link"><i class="lni-reply"></i> Reply</a>
+                                        </div>
+                                        <p>{{ comment.content }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ol>
+
+                        <div id="respond">
+                            <h2 class="respond-title">Leave A Comment</h2>
+                            <form action="#" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12col-xs-12">
+                                        <div class="form-group">
+                                            {{ form.content }}
+                                        </div>
+                                        {% if request.user.is_anonymous %}
+                                        <button type="submit" class="btn btn-common"><a href="{% url 'login' %}"> Post
+                                                                                        Comment </a></button>
+                                        {% else %}
+                                        <button type="submit" id="submit" class="btn btn-common">Post Comment</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
